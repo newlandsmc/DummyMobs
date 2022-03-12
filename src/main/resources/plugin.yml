@@ -1,0 +1,6 @@
+name: DummyMobs
+version: '${project.version}'
+main: com.semivanilla.dummymobs.DummyMobs
+api-version: 1.18
+authors: [ Alen_Alex ]
+description: A plugin to spawn dummy Mobs
