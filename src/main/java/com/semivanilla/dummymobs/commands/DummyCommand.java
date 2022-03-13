@@ -33,6 +33,6 @@ public class DummyCommand extends CommandBase {
             return;
         }
 
-        plugin.getDummyManager().getIfPresent(player).get().despawn();
+        plugin.getDummyManager().remove(player);
     }
 }

@@ -9,6 +9,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.metadata.FixedMetadataValue;
 
 
@@ -27,7 +28,8 @@ public class EntityDamageListener implements Listener {
 
         if(!event.getEntity().hasMetadata(Dummies.DUMMY_META))
             return;
-
+        event.getEntity().setFireTicks(0);
+        event.getEntity().setVisualFire(false);
         final LivingEntity entity = (LivingEntity) event.getEntity();
 
         entity.setHealth(20.0);
@@ -43,10 +45,25 @@ public class EntityDamageListener implements Listener {
         double totalDamage = entity.getMetadata(Dummies.DUMMY_META).get(0).asDouble();
         totalDamage = totalDamage + event.getDamage();
 
+
         event.setDamage(0);
-        entity.setCustomName(String.valueOf(totalDamage));
+        entity.setCustomName(String.format("%.2f",totalDamage));
         entity.setMetadata(Dummies.DUMMY_META, new FixedMetadataValue(DummyMobs.getPlugin(), totalDamage));
     }
 
+    @EventHandler
+    public void onFireDamage(EntityDamageEvent event){
+        if(event.isCancelled())
+            return;
+
+        if(!event.getEntity().hasMetadata(Dummies.DUMMY_META))
+            return;
+
+        if(event.getCause() == EntityDamageEvent.DamageCause.FIRE_TICK || event.getCause() ==  EntityDamageEvent.DamageCause.FIRE) {
+            event.getEntity().setFireTicks(0);
+            event.getEntity().setVisualFire(false);
+            event.setCancelled(true);
+        }
+    }
 
 }

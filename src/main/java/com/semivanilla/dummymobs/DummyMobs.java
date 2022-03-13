@@ -22,6 +22,7 @@ public final class DummyMobs extends JavaPlugin {
         plugin = this;
         this.configuration = new Configuration(this);
         this.dummyManager = new DummyManager(this);
+        this.commandManager = new CommandManager(this);
         /*
         if(!configuration.initConfig()){
             getLogger().severe("Unable to initialize config file. The plugin will be disabled!");

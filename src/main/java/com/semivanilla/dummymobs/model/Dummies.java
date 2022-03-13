@@ -29,6 +29,7 @@ public class Dummies {
         this.entity = (LivingEntity) currentLocation.getWorld().spawnEntity(currentLocation, EntityType.ZOMBIE);
         this.entity.setAI(false);
         this.entity.setMetadata(DUMMY_META, new FixedMetadataValue(DummyMobs.getPlugin(), 0.0));
+        this.entity.setVisualFire(false);
         this.entity.setFireTicks(0);
         entity.setCustomNameVisible(true);
     }
