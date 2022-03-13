@@ -1,13 +1,10 @@
 package com.semivanilla.dummymobs.listener;
 
 import com.semivanilla.dummymobs.DummyMobs;
-import com.semivanilla.dummymobs.model.Dummies;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
-
-import java.util.Optional;
 
 public class PlayerQuitListener implements Listener {
 

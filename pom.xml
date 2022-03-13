@@ -46,6 +46,10 @@
                                     <pattern>de.leonhard.storage</pattern>
                                     <shadedPattern>com.semivanilla.dummymobs.shading.storage</shadedPattern>
                                 </relocation>
+                                <relocation>
+                                    <pattern>me.mattstudios.mf</pattern>
+                                    <shadedPattern>com.semivanilla.dummymobs.shading.mf</shadedPattern>
+                                </relocation>
                             </relocations>
                         </configuration>
                     </execution>
@@ -88,6 +92,12 @@
             <groupId>com.github.simplix-softworks</groupId>
             <artifactId>simplixstorage</artifactId>
             <version>3.2.4</version>
+        </dependency>
+
+        <dependency>
+            <groupId>me.mattstudios.utils</groupId>
+            <artifactId>matt-framework</artifactId>
+            <version>1.4.6</version> <!-- replace version here -->
         </dependency>
     </dependencies>
 </project>
