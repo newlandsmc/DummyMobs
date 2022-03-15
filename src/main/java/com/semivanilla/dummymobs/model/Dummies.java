@@ -10,21 +10,29 @@ import org.bukkit.metadata.FixedMetadataValue;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
+import java.util.Random;
 import java.util.UUID;
 
 public class Dummies {
 
     public static final String DUMMY_META;
+    private static final Random RANDOM;
 
     static {
         DUMMY_META = "dummy-mob";
+        RANDOM = new Random(System.currentTimeMillis());
+
     }
 
     private final UUID playerUID;
     private final LivingEntity entity;
+    private double totalDamageDealt;
+    private int strikeGiven;
 
     public Dummies(UUID playerUID, Location currentLocation) {
         this.playerUID = playerUID;
+        this.totalDamageDealt = 0.0;
+        this.strikeGiven = 0;
 
         this.entity = (LivingEntity) currentLocation.getWorld().spawnEntity(currentLocation, EntityType.ZOMBIE);
         this.entity.setAI(false);
@@ -62,5 +70,13 @@ public class Dummies {
     public Location getLocation(){
         return entity.getLocation();
     }
+
+    public void update(double damage){
+        this.totalDamageDealt = damage + totalDamageDealt;
+        this.strikeGiven+=1;
+
+        final Location newHoloLocation = entity.getLocation().add(RANDOM.nextDouble())
+    }
+
 
 }

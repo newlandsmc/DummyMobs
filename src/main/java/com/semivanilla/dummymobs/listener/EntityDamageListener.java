@@ -12,6 +12,8 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.metadata.FixedMetadataValue;
 
+import java.util.Optional;
+
 
 public class EntityDamageListener implements Listener {
 
@@ -39,16 +41,16 @@ public class EntityDamageListener implements Listener {
 
         final Player player = (Player) event.getDamager();
 
-        if(!plugin.getDummyManager().hasDummy(player) && !plugin.getDummyManager().getIfPresent(player).get().getEntityUID().equals(entity.getUniqueId()))
+        Optional<Dummies> optionalDummies = plugin.getDummyManager().getIfPresent(player);
+
+        if(optionalDummies.isEmpty())
             return;
 
-        double totalDamage = entity.getMetadata(Dummies.DUMMY_META).get(0).asDouble();
-        totalDamage = totalDamage + event.getDamage();
+        if(!optionalDummies.get().getEntityUID().equals(entity.getUniqueId()))
+            return;
 
-
-        event.setDamage(0);
-        entity.setCustomName(String.format("%.2f",totalDamage));
-        entity.setMetadata(Dummies.DUMMY_META, new FixedMetadataValue(DummyMobs.getPlugin(), totalDamage));
+        optionalDummies.get().update(event.getDamage());
+        event.setDamage(0.0);
     }
 
     @EventHandler
