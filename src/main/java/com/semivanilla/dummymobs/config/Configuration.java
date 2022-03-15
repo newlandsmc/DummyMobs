@@ -8,7 +8,7 @@ import de.leonhard.storage.Config;
 
 public class Configuration extends AbstractConfig implements PluginFiles {
 
-    private int holoOffsetX,holoOffsetY,holoOffsetZ;
+    private float holoOffsetX,holoOffsetY,holoOffsetZ;
 
     public Configuration(DummyMobs plugin) {
         super(plugin);
@@ -16,7 +16,7 @@ public class Configuration extends AbstractConfig implements PluginFiles {
 
     @Override
     public boolean initConfig() {
-        this.file = new Config("config.yml",plugin.getDataFolder().getPath());
+        this.file = new Config("config.yml",plugin.getDataFolder().getPath(), getResource("config.yml"));
         return isFileInitialized();
     }
 
@@ -30,32 +30,22 @@ public class Configuration extends AbstractConfig implements PluginFiles {
 
     @Override
     public void loadConfiguration() {
-        this.holoOffsetX = file.getInt(ConfigPath.HOLO_OFFSET_X.path());
-        this.holoOffsetY = file.getInt(ConfigPath.HOLO_OFFSET_Y.path());
-        this.holoOffsetZ = file.getInt(ConfigPath.HOLO_OFFSET_Z.path());
+        this.holoOffsetX = file.getFloat(ConfigPath.HOLO_OFFSET_X.path());
+        this.holoOffsetY = file.getFloat(ConfigPath.HOLO_OFFSET_Y.path());
+        this.holoOffsetZ = file.getFloat(ConfigPath.HOLO_OFFSET_Z.path());
+
     }
 
-    public int getHoloOffsetX() {
+    public float getHoloOffsetX() {
         return holoOffsetX;
     }
 
-    public void setHoloOffsetX(int holoOffsetX) {
-        this.holoOffsetX = holoOffsetX;
-    }
-
-    public int getHoloOffsetY() {
+    public float getHoloOffsetY() {
         return holoOffsetY;
     }
 
-    public void setHoloOffsetY(int holoOffsetY) {
-        this.holoOffsetY = holoOffsetY;
-    }
-
-    public int getHoloOffsetZ() {
+    public float getHoloOffsetZ() {
         return holoOffsetZ;
     }
 
-    public void setHoloOffsetZ(int holoOffsetZ) {
-        this.holoOffsetZ = holoOffsetZ;
-    }
 }

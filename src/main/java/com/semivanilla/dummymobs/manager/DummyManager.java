@@ -11,7 +11,7 @@ import java.util.*;
 public class DummyManager {
 
     private final DummyMobs plugin;
-    private final HashMap<UUID, Dummies> dummiesHashMap;
+    private final HashMap<UUID, Dummies> dummiesHashMap; //Dummy UUID, Dummy Object
 
     public DummyManager(DummyMobs plugin) {
         this.plugin = plugin;
@@ -24,7 +24,7 @@ public class DummyManager {
 
     public Dummies spawn(@NotNull Player player, @NotNull Location location){
         final Dummies dummies = new Dummies(player.getUniqueId(), location);
-        this.dummiesHashMap.put(player.getUniqueId(), dummies);
+        this.dummiesHashMap.put(dummies.getEntityUID(), dummies);
         return dummies;
     }
 
@@ -32,18 +32,19 @@ public class DummyManager {
         return this.spawn(player, player.getLocation());
     }
 
-    public Optional<Dummies> getIfPresent(@NotNull Player player){
-        return Optional.ofNullable(dummiesHashMap.get(player.getUniqueId()));
+    public Optional<Dummies> getDummyOfPlayer(@NotNull Player player){
+        return dummiesHashMap.values().stream().filter(dummy -> dummy.getPlayerUID().equals(player.getUniqueId())).findFirst();
     }
 
-    public boolean hasDummy(@NotNull Player player){
-        return dummiesHashMap.containsKey(player.getUniqueId());
+    public Optional<Dummies> getByEntityID(@NotNull UUID uuid){
+        return Optional.ofNullable(dummiesHashMap.get(uuid));
     }
+
 
     public void remove(@NotNull Player player){
-        getIfPresent(player).ifPresent(dummy -> {
+        getDummyOfPlayer(player).ifPresent(dummy -> {
             dummy.despawn();
-            dummiesHashMap.remove(player.getUniqueId());
+            dummiesHashMap.remove(dummy.getEntityUID());
         });
     }
 

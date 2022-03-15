@@ -19,16 +19,16 @@ public class DummyCommand extends CommandBase {
 
     @Default
     public void onDummyCommand(final Player player){
-        if(!plugin.getDummyManager().hasDummy(player)){
+        if(plugin.getDummyManager().getDummyOfPlayer(player).isEmpty()){
             plugin.getDummyManager().spawn(player);
         }else {
-            plugin.getDummyManager().getIfPresent(player).get().updateLocation(player.getLocation());
+            plugin.getDummyManager().getDummyOfPlayer(player).get().updateLocation(player.getLocation());
         }
     }
 
     @SubCommand("leave")
     public void onCommandLeave(final Player player){
-        if(!plugin.getDummyManager().hasDummy(player)){
+        if(plugin.getDummyManager().getDummyOfPlayer(player).isEmpty()){
             player.sendMessage(ChatColor.translateAlternateColorCodes('&',"&cYou don't own a dummy!"));
             return;
         }

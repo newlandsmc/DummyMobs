@@ -3,9 +3,9 @@ package com.semivanilla.dummymobs;
 import org.jetbrains.annotations.NotNull;
 
 public enum ConfigPath {
-    HOLO_OFFSET_X("hologram-offset.x"),
-    HOLO_OFFSET_Y("hologram-offset.y"),
-    HOLO_OFFSET_Z("hologram-offset.z")
+    HOLO_OFFSET_X("hologram-max-offset.x"),
+    HOLO_OFFSET_Y("hologram-max-offset.y"),
+    HOLO_OFFSET_Z("hologram-max-offset.z")
     ;
 
     private String path;

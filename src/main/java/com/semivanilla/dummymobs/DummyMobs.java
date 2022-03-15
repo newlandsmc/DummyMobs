@@ -2,6 +2,7 @@ package com.semivanilla.dummymobs;
 
 import com.semivanilla.dummymobs.commands.DummyCommand;
 import com.semivanilla.dummymobs.config.Configuration;
+import com.semivanilla.dummymobs.listener.ArmorStandListener;
 import com.semivanilla.dummymobs.listener.EntityDamageListener;
 import com.semivanilla.dummymobs.listener.PlayerQuitListener;
 import com.semivanilla.dummymobs.manager.DummyManager;
@@ -23,7 +24,7 @@ public final class DummyMobs extends JavaPlugin {
         this.configuration = new Configuration(this);
         this.dummyManager = new DummyManager(this);
         this.commandManager = new CommandManager(this);
-        /*
+
         if(!configuration.initConfig()){
             getLogger().severe("Unable to initialize config file. The plugin will be disabled!");
             getServer().getPluginManager().disablePlugin(this);
@@ -31,12 +32,11 @@ public final class DummyMobs extends JavaPlugin {
         }
 
         configuration.loadConfiguration();
-         */
 
         getServer().getPluginManager().registerEvents(new EntityDamageListener(this), this);
         getServer().getPluginManager().registerEvents(new PlayerQuitListener(this), this);
+        getServer().getPluginManager().registerEvents(new ArmorStandListener(this), this);
         commandManager.register(new DummyCommand(this));
-
     }
 
     @Override

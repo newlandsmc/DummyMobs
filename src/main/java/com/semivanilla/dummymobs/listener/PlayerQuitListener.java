@@ -6,7 +6,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
 
-public class PlayerQuitListener implements Listener {
+public final class PlayerQuitListener implements Listener {
 
     private final DummyMobs plugin;
 
@@ -17,7 +17,7 @@ public class PlayerQuitListener implements Listener {
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event){
         final Player player = event.getPlayer();
-        if(!plugin.getDummyManager().hasDummy(player))
+        if(plugin.getDummyManager().getDummyOfPlayer(player).isEmpty())
             return;
 
         plugin.getDummyManager().remove(player);

@@ -15,11 +15,13 @@ import java.util.UUID;
 
 public class Dummies {
 
-    public static final String DUMMY_META;
+    public static final String DUMMY_META_MOB;
+    public static final String DUMMY_META_HOLO;
     private static final Random RANDOM;
 
     static {
-        DUMMY_META = "dummy-mob";
+        DUMMY_META_MOB = "dummy-mob";
+        DUMMY_META_HOLO = "dummy-holo";
         RANDOM = new Random(System.currentTimeMillis());
 
     }
@@ -33,13 +35,15 @@ public class Dummies {
         this.playerUID = playerUID;
         this.totalDamageDealt = 0.0;
         this.strikeGiven = 0;
-
-        this.entity = (LivingEntity) currentLocation.getWorld().spawnEntity(currentLocation, EntityType.ZOMBIE);
+        Location location = currentLocation.clone();
+        location.setYaw(0.0F);
+        location.setPitch(0.0F);
+        this.entity = (LivingEntity) currentLocation.getWorld().spawnEntity(location, EntityType.ZOMBIE);
         this.entity.setAI(false);
-        this.entity.setMetadata(DUMMY_META, new FixedMetadataValue(DummyMobs.getPlugin(), 0.0));
+        this.entity.setMetadata(DUMMY_META_MOB, new FixedMetadataValue(DummyMobs.getPlugin(), 0.0));
         this.entity.setVisualFire(false);
         this.entity.setFireTicks(0);
-        entity.setCustomNameVisible(true);
+        entity.setCustomNameVisible(false);
     }
 
     public UUID getPlayerUID() {
@@ -75,7 +79,32 @@ public class Dummies {
         this.totalDamageDealt = damage + totalDamageDealt;
         this.strikeGiven+=1;
 
-        final Location newHoloLocation = entity.getLocation().add(RANDOM.nextDouble())
+        final Location newHoloLocation = entity.getLocation().clone();
+        newHoloLocation.add((RANDOM.nextBoolean() ? 1 : -1) * RANDOM.nextFloat(DummyMobs.getPlugin().getConfiguration().getHoloOffsetX()),
+                -1 * RANDOM.nextFloat(DummyMobs.getPlugin().getConfiguration().getHoloOffsetY()),
+                (RANDOM.nextBoolean() ? -1 : 1) * RANDOM.nextFloat(DummyMobs.getPlugin().getConfiguration().getHoloOffsetZ()));
+
+
+        final LivingEntity entity = (LivingEntity) newHoloLocation.getWorld().spawnEntity(newHoloLocation, EntityType.ARMOR_STAND);
+        entity.setInvisible(true);
+        entity.setCustomNameVisible(true);
+        entity.setCustomName(String.format("%.2f",damage));
+        entity.setGravity(false);
+        entity.setCollidable(false);
+        entity.setInvulnerable(true);
+        entity.setAI(false);
+        entity.setMetadata(DUMMY_META_HOLO, new FixedMetadataValue(DummyMobs.getPlugin(), "0"));
+
+        final UUID uuid = entity.getUniqueId();
+
+        DummyMobs.getPlugin().getServer().getScheduler().runTaskLater(DummyMobs.getPlugin(), new Runnable() {
+            @Override
+            public void run() {
+                if(entity.isValid()) {
+                    entity.remove();
+                }
+            }
+        },40);
     }
 
 
